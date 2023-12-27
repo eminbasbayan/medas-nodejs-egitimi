@@ -1,2 +1,1 @@
-console.log(document);
-console.log(window);
+require("./add.js");
