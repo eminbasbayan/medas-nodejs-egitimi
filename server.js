@@ -1,12 +1,13 @@
 const express = require("express");
 const app = express();
+const path = require("node:path");
 
 app.get("/", (req, res) => {
-  res.status(200).send("Home Page");
+  res.status(200).sendFile(path.join(__dirname, "views", "index.html"));
 });
 
 app.get("/products", (req, res) => {
-  res.status(200).send("Products Page");
+  res.status(200).sendFile(path.join(__dirname, "views", "products.html"));
 });
 
 /* API Route */
