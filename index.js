@@ -1,26 +1,8 @@
-const path = require("node:path");
+const EventEmitter = require("node:events");
+const emitter = new EventEmitter();
 
-// console.log(__filename);
-// console.log(__dirname);
+emitter.on("orderPizza", (size, topping) => {
+  console.log(`Bir ${size} pizza pişiriliyor. İçindekiler: ${topping}`);
+});
 
-// console.log(path.basename(__filename));
-// console.log(path.basename(__dirname));
-
-// console.log(path.extname(__filename));
-// console.log(path.extname(__dirname));
-
-// console.log(path.parse(__filename));
-// console.log(path.format(path.parse(__filename)));
-
-// console.log(path.isAbsolute(__filename)); // true
-// console.log(path.isAbsolute("data.json")); // false
-
-// console.log(path.join("folder1", "folder2", "index.html"));
-// console.log(path.join("/folder1", "folder2", "index.html"));
-// console.log(path.join("/folder1", "folder2", "index.html"));
-// console.log(path.join("/folder1", "//folder2", "../index.html"));
-
-console.log(path.resolve("folder1", "folder2", "index.html"));
-console.log(path.resolve("/folder1", "folder2", "index.html"));
-console.log(path.resolve("/folder1", "//folder2", "index.html"));
-console.log(path.resolve("/folder1", "//folder2", "../index.html"));
+emitter.emit("orderPizza", "large", "mantar");
