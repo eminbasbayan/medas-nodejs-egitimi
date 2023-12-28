@@ -1,8 +1,9 @@
-const EventEmitter = require("node:events");
-const emitter = new EventEmitter();
+const PizzaShop = require("./pizza-shop.js");
+const pizzaShop = new PizzaShop();
 
-emitter.on("orderPizza", (size, topping) => {
-  console.log(`Bir ${size} pizza pişiriliyor. İçindekiler: ${topping}`);
+pizzaShop.on("order", (size, topping) => {
+  console.log(`Sipariş alındı: ${size} pizza, ${topping} ile.`);
 });
 
-emitter.emit("orderPizza", "large", "mantar");
+pizzaShop.order("large", "zeytin");
+pizzaShop.displayOrderNumber();
