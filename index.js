@@ -1,29 +1,61 @@
-const PizzaShop = require("./pizza-shop.js");
-const DrinkMachine = require("./drink-machine.js");
-const EtkinlikYoneticisi = require("./event-handling.js");
-const pizzaShop = new PizzaShop();
-const drinkMachine = new DrinkMachine();
-const etkinlikYoneticisi = new EtkinlikYoneticisi();
+const fs = require("node:fs");
 
-etkinlikYoneticisi.on("etkinlikOlusturuldu", (etkinlik) => {
-  console.log(
-    `Yeni bir etkinlik oluşturuldu: ${etkinlik.etkinlikAdi}, Tarih: ${etkinlik.tarih}`
-  );
+//! Senkron Dosya yoksa oluşturma varsa içine yazma.
+// fs.writeFileSync("./file.txt", "Hello World!!!!");
+//! Asenkron Dosya yoksa oluşturma varsa içine yazma.
+// fs.writeFile("./file.txt", "Emin Başbayan", (err) => {
+//   if (err) {
+//     console.log("Dosya yazarken bir hata oluştu:", err);
+//   } else {
+//     console.log("Dosya başarıyla yazıldı!");
+//   }
+// });
+
+//! Dosya üzerine yazı ekleme
+// fs.writeFile("./file.txt", "Emin Başbayan", { flag: "a" }, (err) => {
+//   if (err) {
+//     console.log("Dosya yazarken bir hata oluştu:", err);
+//   } else {
+//     console.log("Dosya başarıyla yazıldı!");
+//   }
+// });
+
+//! Senkron dosya okuma
+// const txtFile = fs.readFileSync("./file.txt","utf-8");
+//! Asenkron dosya okuma
+// fs.readFile("./file.txt", (err, data) => {
+//   setTimeout(() => {
+//     if (err) {
+//       console.log("Dosya okunurken bir hata oluştu:", err);
+//     } else {
+//       console.log(data.toString());
+//     }
+//   }, 3000);
+// });
+// console.log("async");
+
+//! Dosya silme
+// fs.unlink("./file.txt", (err) => {
+//   if (err) {
+//     console.log("Dosya silinemedi:", err);
+//   } else {
+//     console.log("Dosya başarıyla silindi!");
+//   }
+// });
+
+//! Klasör oluşturma
+// fs.mkdir("./images", (err) => {
+//   if (err) {
+//     console.log("Klasör oluşturulamadı:", err);
+//   } else {
+//     console.log("Klasör başarıyla oluştu!");
+//   }
+// });
+//! Klasör silme
+fs.rmdir("./images", (err) => {
+  if (err) {
+    console.log("Klasör silinmedi:", err);
+  } else {
+    console.log("Klasör başarıyla silindi!");
+  }
 });
-
-etkinlikYoneticisi.on("katilimciEklendi", (katilimci) => {
-  console.log(
-    `${katilimci.katilimciAdi} adlı katılımcı, ${katilimci.etkinlikAdi} adlı etkinliğe katıldı.`
-  );
-});
-
-etkinlikYoneticisi.etkinlikOlustur("Konser", "28-12-2023");
-etkinlikYoneticisi.katilimciEkle("Konser", "Emin Başbayan");
-
-pizzaShop.on("order", (size, topping) => {
-  console.log(`Sipariş alındı: ${size} pizza, ${topping} ile.`);
-  drinkMachine.serveDrink(size);
-});
-
-pizzaShop.order("large", "zeytin");
-pizzaShop.displayOrderNumber();
