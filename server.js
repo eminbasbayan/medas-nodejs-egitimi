@@ -2,11 +2,19 @@ const express = require("express");
 const app = express();
 const path = require("node:path");
 
+// content-type application/x-www-form-urlendcoded
+app.use(express.urlencoded({ extended: false }));
+
 // server static files
 app.use(express.static(path.join(__dirname, "/public")));
 
 app.get("^/$|index(.html)?", (req, res) => {
   res.status(200).sendFile(path.join(__dirname, "views", "index.html"));
+});
+
+app.post("/submit", (req, res) => {
+  console.log(req.body);
+  res.send("Form verileri alındı ve işlendi.");
 });
 
 app.get("^/$|new-page(.html)?", (req, res) => {
