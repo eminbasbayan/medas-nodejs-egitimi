@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const path = require("node:path");
 
+// server static files
+app.use(express.static(path.join(__dirname, "/public")));
+
 app.get("^/$|index(.html)?", (req, res) => {
   res.status(200).sendFile(path.join(__dirname, "views", "index.html"));
 });
