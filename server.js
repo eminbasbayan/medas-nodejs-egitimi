@@ -37,47 +37,9 @@ app.use(express.json());
 // server static files
 app.use(express.static(path.join(__dirname, "/public")));
 
-app.get("^/$|index(.html)?", (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, "views", "index.html"));
-});
-
-app.post("/submit", (req, res) => {
-  console.log(req.body);
-  res.send("Form verileri alındı ve işlendi.");
-});
-
-app.post("/api/create/product", (req, res) => {
-  console.log(req.body);
-  res.send("Yeni Ürün Oluşturuldu!");
-});
-
-app.get("^/$|new-page(.html)?", (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, "views", "new-page.html"));
-});
-
-app.get("^/$|old-page(.html)?", (req, res) => {
-  res.redirect(301, "/new-page.html");
-});
-
-/* API Route */
-app.get("/api/customers", (req, res) => {
-  res.status(200).send(newProducts);
-});
-
-app.get(
-  "/admin.html",
-  (req, res, next) => {
-    req.customData = "Hello World!";
-    next();
-  },
-  (req, res, next) => {
-    console.log(req.customData);
-    next();
-  },
-  (req, res) => {
-    res.send("Finish!");
-  }
-);
+// routes
+app.use("/", require("./routes/route.js"));
+app.use("/products", require("./routes/api/products.js"));
 
 app.all("*", (req, res) => {
   res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
