@@ -5,6 +5,9 @@ const path = require("node:path");
 // content-type application/x-www-form-urlendcoded
 app.use(express.urlencoded({ extended: false }));
 
+// built-in middleware json
+app.use(express.json());
+
 // server static files
 app.use(express.static(path.join(__dirname, "/public")));
 
@@ -15,6 +18,11 @@ app.get("^/$|index(.html)?", (req, res) => {
 app.post("/submit", (req, res) => {
   console.log(req.body);
   res.send("Form verileri alındı ve işlendi.");
+});
+
+app.post("/api/create/product", (req, res) => {
+  console.log(req.body);
+  res.send("Yeni Ürün Oluşturuldu!");
 });
 
 app.get("^/$|new-page(.html)?", (req, res) => {
