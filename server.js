@@ -28,11 +28,11 @@ app.get("/api/customers", (req, res) => {
 app.get(
   "/admin.html",
   (req, res, next) => {
-    console.log("Hello World!");
+    req.customData = "Hello World!";
     next();
   },
   (req, res, next) => {
-    console.log("Hi!");
+    console.log(req.customData);
     next();
   },
   (req, res) => {
