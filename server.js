@@ -1,6 +1,12 @@
-const express = require("express");
-const app = express();
 const path = require("node:path");
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Cross Origin Resource Sharing (CORS)
+app.use(cors());
 
 // content-type application/x-www-form-urlendcoded
 app.use(express.urlencoded({ extended: false }));
@@ -63,7 +69,6 @@ app.all("*", (req, res) => {
   res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
 });
 
-const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Sunucu ${PORT} portu üzerinde çalışıyor.`);
 });
