@@ -25,6 +25,21 @@ app.get("/api/customers", (req, res) => {
   ]);
 });
 
+app.get(
+  "/admin.html",
+  (req, res, next) => {
+    console.log("Hello World!");
+    next();
+  },
+  (req, res, next) => {
+    console.log("Hi!");
+    next();
+  },
+  (req, res) => {
+    res.send("Finish!");
+  }
+);
+
 app.all("*", (req, res) => {
   res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
 });
