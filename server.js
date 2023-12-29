@@ -1,6 +1,7 @@
 const path = require("node:path");
 const express = require("express");
 const cors = require("cors");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -57,13 +58,7 @@ app.get("^/$|old-page(.html)?", (req, res) => {
 
 /* API Route */
 app.get("/api/customers", (req, res) => {
-  res.status(200).json([
-    {
-      id: 1,
-      firstName: "Emin",
-      lastName: "Başbayan",
-    },
-  ]);
+  res.status(200).send(newProducts);
 });
 
 app.get(
@@ -84,6 +79,8 @@ app.get(
 app.all("*", (req, res) => {
   res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
 });
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Sunucu ${PORT} portu üzerinde çalışıyor.`);
