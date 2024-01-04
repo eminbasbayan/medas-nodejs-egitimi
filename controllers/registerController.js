@@ -8,7 +8,7 @@ const usersDB = {
 const path = require("node:path");
 const fsPromises = require("node:fs/promises");
 
-const handleNewUser = (req, res) => {
+const handleNewUser = async (req, res) => {
   const user = req.body.user;
   const pwd = req.body.pwd;
 
@@ -18,13 +18,19 @@ const handleNewUser = (req, res) => {
     });
   }
 
+  const duplicate = usersDB.users.find((person) => person.username === user);
+  if (duplicate) return res.sendStatus(409);
+
   try {
     const newUser = {
       username: user,
       password: pwd,
     };
     usersDB.setUsers([...usersDB.users, newUser]);
-    console.log(usersDB.users);
+    await fsPromises.writeFile(
+      path.join(__dirname, "..", "models", "users.json"),
+      JSON.stringify(usersDB.users)
+    );
     res.status(201).json({
       success: `New user ${user} created!`,
     });
