@@ -1,31 +1,20 @@
 const express = require("express");
 const router = express.Router();
-
+const productsController = require("../../controllers/productsController.js");
+const {
+  getAllProducts,
+  createNewProduct,
+  updateProduct,
+  deleteProduct,
+  getProductById,
+} = productsController;
 router
   .route("/")
-  .get((req, res) => {
-    res.json(data.products);
-  })
-  .post((req, res) => {
-    res.json({
-      productName: req.body.productName,
-      categoryName: req.body.categoryName,
-    });
-  })
-  .put((req, res) => {
-    res.json({
-      productName: req.body.productName,
-      categoryName: req.body.categoryName,
-    });
-  })
-  .delete((req, res) => {
-    res.json({
-      id: req.body.id,
-    });
-  });
+  .get(getAllProducts)
+  .post(createNewProduct)
+  .put(updateProduct)
+  .delete(deleteProduct);
 
-router.route("/:productId").get((req, res) => {
- 
-});
+router.route("/:productId").get(getProductById);
 
 module.exports = router;
