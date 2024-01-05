@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const errorHandler = require("./middleware/errorHandler");
 const reqHandler = require("./middleware/reqHandler");
+const verifyJWT = require("./middleware/verifyJWT");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -39,9 +40,11 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 // routes
 app.use("/", require("./routes/route.js"));
-app.use("/products", require("./routes/api/products.js"));
 app.use("/register", require("./routes/register.js"));
 app.use("/auth", require("./routes/auth.js"));
+
+app.use(verifyJWT);
+app.use("/products", require("./routes/api/products.js"));
 
 app.all("*", (req, res) => {
   res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
