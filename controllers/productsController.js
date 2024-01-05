@@ -2,8 +2,14 @@ const data = {};
 data.products = require("../models/products.json");
 const Product = require("../models/Product");
 
-const getAllProducts = (req, res) => {
-  res.json(data.products);
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json(products);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 };
 
 const createNewProduct = async (req, res) => {
@@ -18,11 +24,26 @@ const createNewProduct = async (req, res) => {
   }
 };
 
-const updateProduct = (req, res) => {
-  res.json({
-    productName: req.body.productName,
-    categoryName: req.body.categoryName,
-  });
+const updateProduct = async (req, res) => {
+  try {
+    const productId = req.body.id;
+    const updateData = req.body;
+
+    if (!productId) return res.sendStatus(400);
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedProduct) return res.sendStatus(404);
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 };
 
 const deleteProduct = (req, res) => {
