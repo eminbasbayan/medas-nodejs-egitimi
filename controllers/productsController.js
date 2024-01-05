@@ -46,10 +46,21 @@ const updateProduct = async (req, res) => {
   }
 };
 
-const deleteProduct = (req, res) => {
-  res.json({
-    id: req.body.id,
-  });
+const deleteProduct = async (req, res) => {
+  try {
+    const productId = req.body.id;
+
+    if (!productId) return res.sendStatus(400);
+
+    const updatedProduct = await Product.findByIdAndDelete(productId);
+
+    if (!updatedProduct) return res.sendStatus(404);
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 };
 
 const getProductById = (req, res) => {
