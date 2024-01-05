@@ -1,6 +1,8 @@
 const path = require("node:path");
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+
 const errorHandler = require("./middleware/errorHandler");
 const reqHandler = require("./middleware/reqHandler");
 const verifyJWT = require("./middleware/verifyJWT");
@@ -35,6 +37,9 @@ app.use(express.urlencoded({ extended: false }));
 // built-in middleware json
 app.use(express.json());
 
+// middleware for cookies
+app.use(cookieParser());
+
 // server static files
 app.use(express.static(path.join(__dirname, "/public")));
 
@@ -42,7 +47,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use("/", require("./routes/route.js"));
 app.use("/register", require("./routes/register.js"));
 app.use("/auth", require("./routes/auth.js"));
-app.use("/refresh", require("./routes/refresh.js"))
+app.use("/refresh", require("./routes/refresh.js"));
 
 app.use(verifyJWT);
 app.use("/products", require("./routes/api/products.js"));
