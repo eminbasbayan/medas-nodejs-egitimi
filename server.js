@@ -2,6 +2,7 @@ const path = require("node:path");
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
 
 const errorHandler = require("./middleware/errorHandler");
 const reqHandler = require("./middleware/reqHandler");
@@ -9,6 +10,17 @@ const verifyJWT = require("./middleware/verifyJWT");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+const mongoDbConnect = async () => {
+  try {
+    await mongoose.connect(
+      "mongodb+srv://basbayanemin12345:xnOMdByKDCy5iAt0@cluster111.kfdftyz.mongodb.net/e-commerce"
+    );
+    console.log("Connected to mongoDb!");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const whiteList = [
   "https://www.google.com.tr",
@@ -61,4 +73,5 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Sunucu ${PORT} portu üzerinde çalışıyor.`);
+  mongoDbConnect();
 });
