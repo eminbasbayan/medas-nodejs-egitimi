@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const productsController = require("../../controllers/productsController.js");
+const verifyJWT = require("../../middleware/verifyJWT.js");
 const {
   getAllProducts,
   createNewProduct,
@@ -10,7 +11,7 @@ const {
 } = productsController;
 router
   .route("/")
-  .get(getAllProducts)
+  .get(verifyJWT, getAllProducts)
   .post(createNewProduct)
   .put(updateProduct)
   .delete(deleteProduct);
